@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garment IE Calculator</title>
+
+<style>
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f2f5f7;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:450px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+h1{
+    text-align:center;
+    color:#1565C0;
+    margin-bottom:5px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#666;
+    margin-bottom:25px;
+}
+
+label{
+    font-weight:bold;
+    display:block;
+    margin-top:15px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:5px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:18px;
+    box-sizing:border-box;
+}
+
+.result{
+    margin-top:20px;
+    background:#1565C0;
+    color:white;
+    padding:15px;
+    border-radius:10px;
+    font-size:20px;
+}
+
+.result p{
+    margin:10px 0;
+}
+
+button{
+    width:100%;
+    margin-top:20px;
+    padding:12px;
+    font-size:18px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.reset{
+    background:#d32f2f;
+    color:white;
+}
+
+.footer{
+    text-align:center;
+    color:#777;
+    margin-top:20px;
+    font-size:13px;
+}
+</style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1565C0">
+<link rel="apple-touch-icon" href="icon-192.png">
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Garment IE Calculator</h1>
+<div class="subtitle">Clock Hour • SAH • Efficiency</div>
+
+<label>Manpower</label>
+<input type="number" id="mp" oninput="calculate()">
+
+<label>Working Hours</label>
+<input type="number" step="0.01" id="wh" oninput="calculate()">
+
+<label>SMV (Minutes)</label>
+<input type="number" step="0.01" id="smv" oninput="calculate()">
+
+<label>Output Pieces</label>
+<input type="number" id="pcs" oninput="calculate()">
+
+<div class="result">
+
+<p><strong>Clock Hour:</strong>
+<span id="clock">0.00</span></p>
+
+<p><strong>SAH:</strong>
+<span id="sah">0.00</span></p>
+
+<p><strong>Efficiency:</strong>
+<span id="eff">0.00</span>%</p>
+
+</div>
+
+<button class="reset" onclick="resetForm()">Reset</button>
+
+<div class="footer">
+Garment IE Calculator v1.0
+</div>
+
+</div>
+
+<script>
+
+function calculate(){
+
+let manpower=parseFloat(document.getElementById("mp").value)||0;
+let working=parseFloat(document.getElementById("wh").value)||0;
+let smv=parseFloat(document.getElementById("smv").value)||0;
+let output=parseFloat(document.getElementById("pcs").value)||0;
+
+let clock=manpower*working;
+
+let sah=(output*smv)/60;
+
+let efficiency=0;
+
+if(clock>0){
+efficiency=(sah/clock)*100;
+}
+
+document.getElementById("clock").innerHTML=clock.toFixed(2);
+document.getElementById("sah").innerHTML=sah.toFixed(2);
+document.getElementById("eff").innerHTML=efficiency.toFixed(2);
+
+}
+
+function resetForm(){
+
+document.getElementById("mp").value="";
+document.getElementById("wh").value="";
+document.getElementById("smv").value="";
+document.getElementById("pcs").value="";
+
+calculate();
+
+}
+
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js');
+    });
+}
+</script>
+
+</body>
+</html>
